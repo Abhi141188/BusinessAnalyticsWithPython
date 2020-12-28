@@ -20,16 +20,27 @@ data.columns
 data.Country.unique() 
 
 #Cleaning the Data-----------------
-# Stripping extra spaces in the description 
-data['Description'] = data['Description'].str.strip() 
+#Identifying missing values:
+'''Is there any missing values across columns'''
+data.isnull().any()
+
+'''How many missing values are there across each column'''
+data.isnull().sum()
 
 # Dropping the rows without any invoice number 
-data.info()
 data.dropna(axis = 0, subset =['InvoiceNo'], inplace = True) 
-data['InvoiceNo'] = data['InvoiceNo'].astype('str') 
+data.isnull().sum()
 
-# Dropping all transactions which were done on credit 
+# Dropping all transactions which were done on credit
+data.info() 
+data = data[~data['InvoiceNo'].str.contains('C')]
+#For the above cmd to work, we need to ensure that we convert Column "Invoinve No." to string form.
+data['InvoiceNo'] = data['InvoiceNo'].astype('str') 
 data = data[~data['InvoiceNo'].str.contains('C')] 
+#Hence, now we have been able to remove the rows with credit (C) type billing.
+
+# Stripping extra spaces in the description 
+data['Description'] = data['Description'].str.strip() 
 
 #Splitting the data according to the region of transaction-------
 # Transactions done in France 
@@ -82,31 +93,28 @@ basket_Sweden = basket_encoded
 #France:
 # Building the model 
 frq_items = apriori(basket_France, min_support = 0.05, use_colnames = True) 
+frq_items
 
 # Collecting the inferred rules in a dataframe 
 rules = association_rules(frq_items, metric ="lift", min_threshold = 1) 
-rules = rules.sort_values(['confidence', 'lift'], ascending =[False, False]) 
 print(rules.head()) 
 France_rules=pd.DataFrame(rules)
 
 #Portugal
 frq_items = apriori(basket_Por, min_support = 0.05, use_colnames = True) 
 rules = association_rules(frq_items, metric ="lift", min_threshold = 1) 
-rules = rules.sort_values(['confidence', 'lift'], ascending =[False, False]) 
 print(rules.head()) 
 Portugal_rules=pd.DataFrame(rules)
 
 #Sweden
 frq_items = apriori(basket_Sweden, min_support = 0.05, use_colnames = True) 
 rules = association_rules(frq_items, metric ="lift", min_threshold = 1) 
-rules = rules.sort_values(['confidence', 'lift'], ascending =[False, False]) 
 print(rules.head()) 
 Sweden_rules=pd.DataFrame(rules)
 
 #UK
 frq_items = apriori(basket_UK, min_support = 0.05, use_colnames = True) 
 rules = association_rules(frq_items, metric ="lift", min_threshold = 1) 
-rules = rules.sort_values(['confidence', 'lift'], ascending =[False, False]) 
 print(rules.head()) 
 UK_rules=pd.DataFrame(rules)
 
@@ -121,7 +129,7 @@ def draw_graph(rules, rules_to_show):
   color_map=[]
   N = 50
   colors = np.random.rand(N)    
-  strs=['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11']   
+  strs=['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'R16']   
    
    
   for i in range (rules_to_show):      
@@ -164,14 +172,26 @@ def draw_graph(rules, rules_to_show):
   nx.draw_networkx_labels(G1, pos)
   plt.show()
  
-     
-draw_graph (France_rules, 5)
+ 
+#Chart showing association rules of few products frequently sold in France    
+fig_1 = draw_graph (France_rules, 10)
+fig_1
 
-draw_graph (Sweden_rules, 7)
+#Chart showing association of few products frequently sold in Portugal    
+fig_2 = draw_graph (Portugal_rules, 10)
+fig_2
 
+#Chart showing association of few products frequently sold in Sweden    
+fig_3 = draw_graph (Sweden_rules, 5)
+fig_3
 
+#Chart showing association of few products frequently sold in UK 
+fig_4 = draw_graph (UK_rules, 5)
+fig_4
 
-
+#Note: We get an error here in case of "UK" bcz none of the product associations in UK
+# follow the criteria of min support = 0.05 mentioned above in line:
+# frq_items = apriori(basket_UK, min_support = 0.05, use_colnames = True) 
 
 
 
