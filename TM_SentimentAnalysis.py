@@ -8,7 +8,7 @@ Created on Wed Apr 29 17:15:01 2020
 from textblob import TextBlob
 
 Feedback1 = 'Starbucks Coffee is awesome.'
-Feedback2 = 'Starbucks Coffee was bad.'
+Feedback2 = 'Starbucks Coffee was worst.'
 Feedback3 = 'Starbucks Coffee was Ok.'
 
 b1 = TextBlob(Feedback1)
@@ -24,7 +24,7 @@ print(b3.sentiment)
 import pandas as pd
 
 #Load data
-dataset = pd.read_csv('F:/pyWork/Text_Mining/PresidentSpeechs/Obama.txt')
+dataset = pd.read_csv('F:/pyWork/Text_Mining/PresidentSpeechs/Bush.txt')
 #Converting data into string format
 dataset = dataset.to_string(index = False) 
 type(dataset)
@@ -39,9 +39,6 @@ dataset = re.sub("[^A-Za-z0-9]+"," ",dataset)
 #----------------------Tokenization--------------------------------------------
 import nltk
 #nltk.download()
-
-#for word in dataset[:500]:
-    #print(word, sep='',end='')
     
 from nltk.tokenize import word_tokenize
 Tokens = word_tokenize(dataset)
@@ -55,7 +52,7 @@ from nltk.probability import FreqDist
 fdist = FreqDist()
 
 for word in Tokens:
-    fdist[word.lower()]+=1
+    fdist[word] += 1
 fdist
 fdist.plot(20)
 
@@ -73,12 +70,23 @@ stopwords = nltk.corpus.stopwords.words('english')
 stopwords[0:10]
 
 #Getting rid of stopwords
+#filtered_sentence = [FinalWord for FinalWord in Tokens if FinalWord not in stopwords]
+filtered_sentence = []   
 for FinalWord in Tokens:
     if FinalWord not in stopwords:
-        print(FinalWord)
-        
+        filtered_sentence.append(FinalWord)  
+
+print(filtered_sentence)  
+len(filtered_sentence)
 #Classification of words as Positive, Negative & Neutral
 
 #Calculating final Sentiment Score
-b2 =TextBlob(FinalWord)
+b2 =TextBlob(filtered_sentence)
+#We need to convert "filtered sentence" list into string for applying: Textblob fxn.
+# Python program to convert a list 
+# to string using list comprehension using list comprehension 
+filtered_sentence = ' '.join([str(elem) for elem in filtered_sentence]) 
+print(filtered_sentence)
+
+b2 =TextBlob(filtered_sentence)
 print(b2.sentiment)
