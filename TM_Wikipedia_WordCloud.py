@@ -13,7 +13,7 @@ def get_wiki(query):
     page = wikipedia.page(title)
     return page.content
 
-print (get_wiki("python programming language"))
+print (get_wiki("IIT Bhubaneswar"))
 
 from wordcloud import WordCloud, STOPWORDS
 
@@ -24,7 +24,7 @@ wc = WordCloud(width = 800, height = 800,
                    mask=None,
                    max_words=400,
                    stopwords=stopword,
-                   min_font_size = 10).generate(get_wiki("python programming language"))
-   
-wc.to_file("WC1.png")
+                   min_font_size = 10).generate(get_wiki("IIT Bhubaneswar"))
+
+wc.to_file("F:/pyWork/pyData/WC_IITB.png")
     
