@@ -10,21 +10,27 @@ from textblob import TextBlob
 Feedback1 = 'Starbucks Coffee is awesome.'
 Feedback2 = 'Starbucks Coffee was worst.'
 Feedback3 = 'Starbucks Coffee was Ok.'
+Feedback4 = 'Starbucks loves customers.'
+Feedback5 = 'Starbucks Coffee is good.'
 
 b1 = TextBlob(Feedback1)
 b2 = TextBlob(Feedback2)
 b3 = TextBlob(Feedback3)
+b4 = TextBlob(Feedback4)
+b5 = TextBlob(Feedback5)
 
 print(b1.sentiment)
 print(b2.sentiment)
 print(b3.sentiment)
+print(b4.sentiment)
+print(b5.sentiment)
 
 #Project-2
 #Import Library
 import pandas as pd
 
 #Load data
-dataset = pd.read_csv('F:/pyWork/Text_Mining/PresidentSpeechs/Bush.txt')
+dataset = pd.read_csv('F:/pyWork/Text_Mining/PresidentSpeechs/Obama.txt')
 #Converting data into string format
 dataset = dataset.to_string(index = False) 
 type(dataset)
@@ -35,6 +41,9 @@ print(b1.sentiment)
 #-------------------Cleaning the data-----------------------------------
 import re
 dataset = re.sub("[^A-Za-z0-9]+"," ",dataset)
+#sub is used to substitute......here we substitute all element in bracket with space.
+# ^ is used for negation so it means accept these all ranges convert it to space. 
+# + signify that atleast one should be converted.
 
 #----------------------Tokenization--------------------------------------------
 import nltk
@@ -78,6 +87,8 @@ for FinalWord in Tokens:
 
 print(filtered_sentence)  
 len(filtered_sentence)
+len(Tokens)
+
 #Classification of words as Positive, Negative & Neutral
 
 #Calculating final Sentiment Score
@@ -90,3 +101,9 @@ print(filtered_sentence)
 
 b2 =TextBlob(filtered_sentence)
 print(b2.sentiment)
+
+from wordcloud import WordCloud
+word_cloud = WordCloud(width = 512, height = 512, background_color='white', stopwords=stopwords).generate(filtered_sentence)
+import matplotlib.pyplot as plt
+plt.imshow(word_cloud)
+
