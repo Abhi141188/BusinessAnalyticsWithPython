@@ -13,7 +13,9 @@ def get_wiki(query):
     page = wikipedia.page(title)
     return page.content
 
-print (get_wiki("IIT Bhubaneswar"))
+print (get_wiki("IIM Sirmaur"))
+
+#print (get_wiki("hhvhsgkaxgk"))
 
 from wordcloud import WordCloud, STOPWORDS
 
@@ -22,9 +24,11 @@ stopword = set(STOPWORDS)
 wc = WordCloud(width = 800, height = 800, 
                    background_color="White",
                    mask=None,
-                   max_words=400,
+                   max_words=200,
                    stopwords=stopword,
-                   min_font_size = 10).generate(get_wiki("IIT Bhubaneswar"))
+                   min_font_size = 10).generate(get_wiki("IIM Sirmaur"))
 
-wc.to_file("F:/pyWork/pyData/WC_IITB.png")
+import matplotlib.pyplot as plt
+plt.imshow(wc)
+wc.to_file("F:/pyWork/pyData/WC_IIM-Sirmaur.png")
     
