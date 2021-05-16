@@ -11,7 +11,7 @@ Feedback1 = 'Starbucks Coffee is awesome.'
 Feedback2 = 'Starbucks Coffee was worst.'
 Feedback3 = 'Starbucks Coffee was Ok.'
 Feedback4 = 'Starbucks loves customers.'
-Feedback5 = 'Starbucks Coffee is good.'
+Feedback5 = 'Starbucks Coffee is fine.'
 
 b1 = TextBlob(Feedback1)
 b2 = TextBlob(Feedback2)
@@ -25,12 +25,20 @@ print(b3.sentiment)
 print(b4.sentiment)
 print(b5.sentiment)
 
+#Note:
+#Polarity: It simply means emotions expressed in a sentence.
+#Emotions are closely related to sentiments. They can be positive, negative or neural.
+
+#Subjectivity: Subjective sentence expresses some personal feelings, views, or beliefs.
+#A subjective sentence may not express any sentiment. For example, “I think that he went home” 
+#and “I want a camera that can take good photos” are a subjective sentences, but does not express any sentiment.  
+
 #Project-2
 #Import Library
 import pandas as pd
 
 #Load data
-dataset = pd.read_csv('F:/pyWork/Text_Mining/PresidentSpeechs/Obama.txt')
+dataset = pd.read_csv('F:/WORK/pyWork/Text_Mining/PresidentSpeechs/Bush.txt')
 #Converting data into string format
 dataset = dataset.to_string(index = False) 
 type(dataset)
